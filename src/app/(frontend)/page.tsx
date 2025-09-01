@@ -1,59 +1,47 @@
-import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
-import { getPayload } from 'payload'
 import React from 'react'
-import { fileURLToPath } from 'url'
-
-import config from '@/payload.config'
-import './styles.css'
 
 export default async function HomePage() {
-  const headers = await getHeaders()
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers })
+  return ( 
+  <div>
+      <h1>Welcome to SkinEra  Your Trusted Partner in Advanced Skin & Hair Care</h1>
+      <p>
+        At SkinEra, we combine medical expertise with state-of-the-art technology to offer premium skincare and hair restoration solutions. Whether you are looking to rejuvenate your skin, restore your hair, or simply feel confident in your own skin — we are here for you.
+      </p>
 
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
+      <h2>✨ Our Services Include:</h2>
+      <h3>Aesthetic Treatments:</h3>
+      <p>Botox, Vampire Facial, Skin Boosters, HydraFacial (Basic & Premium), Chemical Peels, Exosome Facials, and more.</p>
 
-  return (
-    <div className="home">
-      <div className="content">
-        <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg" />
-          <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
-          />
-        </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-        <div className="links">
-          <a
-            className="admin"
-            href={payloadConfig.routes.admin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Go to admin panel
-          </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
-        </div>
-      </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
-      </div>
+      <h3>Hair Restoration:</h3>
+      <p>GFC, PRP, Microneedling with PRP, and Hair Transplants.</p>
+
+      <h3>Laser & Minor Procedures:</h3>
+      <p>Wart Removal, Milia Extraction, RF Cautery, Laser Hair Removal.</p>
+
+      <h3>Advanced Dermatology Care:</h3>
+      <p>TCA CROSS, Subcision, Molluscum Extraction, and more.</p>
+
+      <h2>🔬 Lab Testing</h2>
+      <p>We offer comprehensive lab testing including:</p>
+      <ul>
+        <li>Hormonal Panels (Testosterone, FSH, LH, etc.)</li>
+        <li>Allergy Tests</li>
+        <li>Viral Markers (HIV, HCV, VDRL)</li>
+        <li>Thyroid Profile, Vitamin Levels, and more</li>
+      </ul>
+
+      <h2>💡 Why Choose SkinEra?</h2>
+      <ul>
+        <li>Certified professionals with deep dermatology expertise</li>
+        <li>Safe, evidence-based treatments</li>
+        <li>Personalized plans for every patient</li>
+        <li>Complete transparency in procedures and pricing</li>
+      </ul>
+
+      <p>
+        <strong>Book your appointment today and begin your transformation journey with SkinEra.</strong>
+      </p>
     </div>
   )
 }
+ 

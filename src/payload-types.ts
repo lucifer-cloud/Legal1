@@ -69,6 +69,13 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    purpose: Purpose;
+    procedure: Procedure;
+    labtest: Labtest;
+    expense: Expense;
+    patients: Patient;
+    whatsapp: Whatsapp;
+    'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +84,13 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    purpose: PurposeSelect<false> | PurposeSelect<true>;
+    procedure: ProcedureSelect<false> | ProcedureSelect<true>;
+    labtest: LabtestSelect<false> | LabtestSelect<true>;
+    expense: ExpenseSelect<false> | ExpenseSelect<true>;
+    patients: PatientsSelect<false> | PatientsSelect<true>;
+    whatsapp: WhatsappSelect<false> | WhatsappSelect<true>;
+    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -91,7 +105,13 @@ export interface Config {
     collection: 'users';
   };
   jobs: {
-    tasks: unknown;
+    tasks: {
+      sendMessage: TaskSendMessage;
+      inline: {
+        input: unknown;
+        output: unknown;
+      };
+    };
     workflows: unknown;
   };
 }
@@ -119,6 +139,8 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  name?: string | null;
+  roles: ('admin' | 'doctor' | 'receptionist')[];
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -128,13 +150,6 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
   password?: string | null;
 }
 /**
@@ -143,7 +158,6 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt: string;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -155,6 +169,205 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purpose".
+ */
+export interface Purpose {
+  id: string;
+  name: string;
+  cost: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "procedure".
+ */
+export interface Procedure {
+  id: string;
+  name: string;
+  cost: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labtest".
+ */
+export interface Labtest {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "expense".
+ */
+export interface Expense {
+  id: string;
+  name: string;
+  date: string;
+  amount: number;
+  paymentMode?: ('cash' | 'card' | 'online') | null;
+  /**
+   * Upload a invoice image
+   */
+  invoice?: (string | Media)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "patients".
+ */
+export interface Patient {
+  id: string;
+  name: string;
+  primaryNumber: number;
+  age: number;
+  gender: 'male' | 'female' | 'other';
+  email?: string | null;
+  secondaryNumber?: number | null;
+  address?: string | null;
+  appointments?:
+    | {
+        appointmentDate?: string | null;
+        followUpDay?: number | null;
+        prescriptionValidity?: string | null;
+        purpose?: (string | null) | Purpose;
+        purposeAmount?: string | null;
+        PurposePaymentType?: ('cash' | 'card' | 'online') | null;
+        procedures?:
+          | {
+              procedure?: (string | null) | Procedure;
+              procedureAmount?: string | null;
+              procedurePaymentType?: ('cash' | 'card' | 'online') | null;
+              id?: string | null;
+            }[]
+          | null;
+        labTest?: (string | Labtest)[] | null;
+        /**
+         * Upload a profile image
+         */
+        personImage?: (string | Media)[] | null;
+        /**
+         * Upload a invoice image
+         */
+        invoiceImage?: (string | Media)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "whatsapp".
+ */
+export interface Whatsapp {
+  id: string;
+  userName: string;
+  to: string;
+  templateName: string;
+  status: string;
+  sentAt: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs".
+ */
+export interface PayloadJob {
+  id: string;
+  /**
+   * Input data provided to the job
+   */
+  input?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  taskStatus?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  completedAt?: string | null;
+  totalTried?: number | null;
+  /**
+   * If hasError is true this job will not be retried
+   */
+  hasError?: boolean | null;
+  /**
+   * If hasError is true, this is the error that caused it
+   */
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Task execution log
+   */
+  log?:
+    | {
+        executedAt: string;
+        completedAt: string;
+        taskSlug: 'inline' | 'sendMessage';
+        taskID: string;
+        input?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        output?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        state: 'failed' | 'succeeded';
+        error?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  taskSlug?: ('inline' | 'sendMessage') | null;
+  queue?: string | null;
+  waitUntil?: string | null;
+  processing?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -170,6 +383,34 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'purpose';
+        value: string | Purpose;
+      } | null)
+    | ({
+        relationTo: 'procedure';
+        value: string | Procedure;
+      } | null)
+    | ({
+        relationTo: 'labtest';
+        value: string | Labtest;
+      } | null)
+    | ({
+        relationTo: 'expense';
+        value: string | Expense;
+      } | null)
+    | ({
+        relationTo: 'patients';
+        value: string | Patient;
+      } | null)
+    | ({
+        relationTo: 'whatsapp';
+        value: string | Whatsapp;
+      } | null)
+    | ({
+        relationTo: 'payload-jobs';
+        value: string | PayloadJob;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -218,6 +459,8 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -227,20 +470,12 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -252,6 +487,129 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "purpose_select".
+ */
+export interface PurposeSelect<T extends boolean = true> {
+  name?: T;
+  cost?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "procedure_select".
+ */
+export interface ProcedureSelect<T extends boolean = true> {
+  name?: T;
+  cost?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labtest_select".
+ */
+export interface LabtestSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "expense_select".
+ */
+export interface ExpenseSelect<T extends boolean = true> {
+  name?: T;
+  date?: T;
+  amount?: T;
+  paymentMode?: T;
+  invoice?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "patients_select".
+ */
+export interface PatientsSelect<T extends boolean = true> {
+  name?: T;
+  primaryNumber?: T;
+  age?: T;
+  gender?: T;
+  email?: T;
+  secondaryNumber?: T;
+  address?: T;
+  appointments?:
+    | T
+    | {
+        appointmentDate?: T;
+        followUpDay?: T;
+        prescriptionValidity?: T;
+        purpose?: T;
+        purposeAmount?: T;
+        PurposePaymentType?: T;
+        procedures?:
+          | T
+          | {
+              procedure?: T;
+              procedureAmount?: T;
+              procedurePaymentType?: T;
+              id?: T;
+            };
+        labTest?: T;
+        personImage?: T;
+        invoiceImage?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "whatsapp_select".
+ */
+export interface WhatsappSelect<T extends boolean = true> {
+  userName?: T;
+  to?: T;
+  templateName?: T;
+  status?: T;
+  sentAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs_select".
+ */
+export interface PayloadJobsSelect<T extends boolean = true> {
+  input?: T;
+  taskStatus?: T;
+  completedAt?: T;
+  totalTried?: T;
+  hasError?: T;
+  error?: T;
+  log?:
+    | T
+    | {
+        executedAt?: T;
+        completedAt?: T;
+        taskSlug?: T;
+        taskID?: T;
+        input?: T;
+        output?: T;
+        state?: T;
+        error?: T;
+        id?: T;
+      };
+  taskSlug?: T;
+  queue?: T;
+  waitUntil?: T;
+  processing?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -284,6 +642,14 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSendMessage".
+ */
+export interface TaskSendMessage {
+  input?: unknown;
+  output?: unknown;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

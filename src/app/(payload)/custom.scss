@@ -1,0 +1,223 @@
+@media (min-width: 1024px) {
+    .table {
+        border: 1px solid #d2d2d2 !important;
+        border-radius: 10px;
+    }
+
+    .card__title, .nav-group__content .nav__link {
+        font-size: 16px;
+        padding: 5px 0;
+    }
+
+    .step-nav__home {
+        width: 25px;
+        height: 27px;
+    }
+
+    .tab_padding {
+        padding: 1px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .step-nav__home {
+        width: 21px;
+        height: 23px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboardTabs ul.dashboard__card-list {
+        display: flex;
+    }
+
+    .dashboardTabs .dateGroup ul.dashboard__card-list li {
+        width: 35%;
+        overflow: auto;
+    }
+
+    .dashboardTabs .dateGroup ul.dashboard__card-list li:nth-child(3) {
+        width: 20%;
+        overflow: auto;
+    }
+
+    .dashboardTabs ul.dashboard__card-list li {
+        width: 31%;
+        overflow: auto;
+    }
+
+    .dashboardTabs h1 {
+        font-size: 16px;
+    }
+
+    .dashboardTabs p {
+        font-weight: 400;
+    }
+
+    .headlineBlock {
+        padding: 5px !important;
+    }
+
+    .dashboard__group .dashboard__card-list {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .dashboard__group .dashboard__card-list li {
+        width: 48%;
+    }
+
+    .dashboard__group .dashboard__card-list .card {
+        min-height: 0;
+        padding: 15px 5px;
+        gap: 5px;
+    }
+
+    .dashboard__group .dashboard__card-list .card .card__title {
+        font-weight: 400;
+        font-size: 13px;
+    }
+}
+
+.nav__link:has(.nav__link-indicator),
+.nav nav a.active {
+    font-weight: 700;
+}
+
+aside.nav {
+    background: #f5f5f5;
+}
+
+.nav-group__label {
+    font-size: 17px;
+}
+
+.app-header {
+    border-bottom: 1px solid #f5f5f5;
+    box-shadow: 2px 1px 2px #f5f5f5;
+    margin-bottom: 15px;
+}
+
+.nav-group__toggle {
+    border-bottom: 1px dotted #9a9a9a;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+.nav-group__toggle:hover {
+    border-color: #000;
+}
+
+.collection-list .table {
+    display: block;
+}
+
+.headline__group {
+    margin-top: 20px;
+}
+
+.headlineBlock {
+    display: block;
+    padding: 10px 20px;
+    border-radius: 2px;
+}
+
+.revenue {
+    background: #e3fdf0;
+    border-color: #e3fdf0;
+}
+
+.patients {
+    background: #fdfee0;
+    border-color: #fdfee0;
+}
+
+.appointments {
+    border: #f5f5f5;
+}
+
+.headlineBlock .headlineSmallText {
+    padding-top: 10px;
+    font-size: 13px;
+}
+
+:root {
+    --primary-theme-color: #8a1758;
+    --primary-theme-font-color: #ffffff;
+    --secondary-theme-color: #c4335b;
+}
+
+.btn--style-primary, 
+.btn--style-pill {
+    background-color: var(--primary-theme-color);
+    color: white;
+}
+
+.btn--style-primary.btn--disabled,
+.btn--style-primary.btn--disabled:hover {
+    background-color: var(--theme-elevation-200);
+}
+
+.btn--style-primary:hover,
+.btn--style-pill:hover {
+    color: white;
+    box-shadow: var(--hover-box-shadow);
+    background-color: var(--secondary-theme-color);
+}
+
+.dashboard .doc-tab--active:before {
+    background-color: var(--primary-theme-color);
+}
+
+.dashboard .doc-tab--active span {
+    color: white;
+}
+
+.dashboard .doc-tab:before {
+    opacity: 1;
+}
+
+.template-minimal__wrap .btn__icon {
+    color: var(--primary-theme-color);
+}
+
+.marginBlock0 {
+    margin-block: 0;
+}
+
+.nav-group__content .nav__link {
+    padding-left: 5px;
+}
+
+.nav__link:has(.nav__link-indicator) {
+    background: white;
+    color: #8a1758;
+}
+
+.nav__link-indicator {
+    background: #8a1758;
+    width: 20px;
+    height: 30px;
+    border-radius: 0;
+}
+
+.nav__link:hover, .nav__link:focus {
+    background: white;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+.nav__scroll {
+    padding-right: 0;
+}
+
+li[aria-label="Edit"],
+li[aria-label="API"] {
+    display: none !important;
+}
+// disable sorting
+.sort-column__buttons {
+    display: none;
+}
+.scanQRButton {
+  margin: 0;
+}
