@@ -1,7 +1,7 @@
 {
-  "name": "SkinEra",
+  "name": "Legal",
   "version": "1.0.0",
-  "description": "Appointment system for skinera",
+  "description": "Appointment system for Legal",
   "license": "MIT",
   "type": "module",
   "scripts": {
